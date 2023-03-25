@@ -1,0 +1,9 @@
+- N Adet Kart
+    - Adı
+    - Görsel (Varsayılan ve Kart Görseli)
+    - Tıkladığımda Çevir
+    - 2 Kart Açılırsa Kıyasla ve Sahadan Sil veya Geri Çevir
+
+- Oyun İçerisinde
+    - Skor (Eşleşen Kart Sayısı)
+    - ?Timer
