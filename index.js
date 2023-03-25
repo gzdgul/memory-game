@@ -10,6 +10,7 @@ const element_move_bar = document.getElementById('move_bar');
 const element_darkModeSwitch = document.getElementById('darkModeSwitch');
 const element_body = document.getElementById('body');
 const element_table = document.getElementById('scoreTable');
+const element_modal_content = document.querySelector('#scoreModal .modal-content');
 
 
 const cards = [
@@ -69,9 +70,10 @@ function cardNumberChooser(x) {
     score = 0;
     elementScore.innerText = 'Score: ' + score;
     moveCounter = 0;
-    movesLeft = null;
+    movesLeft = totalMovesNumber;
     elementMoves.innerHTML = totalMovesNumber + ' moves left';
     element_move_bar.style = 'width: 100%';
+    previousCard = null;
     StartGame();
 }
 /*
@@ -81,32 +83,59 @@ function cardNumberChooser(x) {
     <td class="td_score">50</td>
 </tr>
  */
-function createNewTableData(username, newscore) {
-    const element_tr = document.createElement('tr');
-    const element_th = document.createElement('th');
-    element_th.setAttribute('scope', 'row');
-    element_th.innerText = k; k++;
-    element_tr.appendChild(element_th);
-    const element_td_name = document.createElement('td');
-    element_td_name.innerText = username;
-    element_tr.appendChild(element_td_name);
-    const element_td_score = document.createElement('td');
-    element_td_score.innerText = newscore;
-    element_td_score.className = 'td_score';
-    element_tr.appendChild(element_td_score);
-    element_tbody.appendChild(element_tr);
 
+const scoreTableList = [
+    {
+        name: 'Mark342',
+        score: 140
+    },
+    {
+        name: 'Jacob44',
+        score: 70
+    },
+    {
+        name: 'Rose30',
+        score: 50
+    }
+]
+
+function createTableData() {
+    element_tbody.innerHTML = null;
+    scoreTableList
+        .sort((a, b) => b.score - a.score)
+        .forEach((x, index) => {
+            const element_tr = document.createElement('tr');
+            const element_th = document.createElement('th');
+            element_th.setAttribute('scope', 'row');
+            element_th.innerText = (index + 1).toString();
+            element_tr.appendChild(element_th);
+            const element_td_name = document.createElement('td');
+            element_td_name.innerText = x.name;
+            element_tr.appendChild(element_td_name);
+            const element_td_score = document.createElement('td');
+            element_td_score.innerText = x.score;
+            element_td_score.className = 'td_score';
+            element_tr.appendChild(element_td_score);
+            element_tbody.appendChild(element_tr);
+        });
+}
+
+function createNewTableData(username, newscore) {
+    scoreTableList.push({
+        name: username,
+        score: newscore
+    });
+    createTableData();
 }
 function GameOverCheck() {
-    if ((score/10) === suffleCards.length / 2) {
+    if (((score/10) === suffleCards.length / 2) || movesLeft <= 0 ) {
         elementModalBodyScore.innerText = 'Your Score: ' + score;
+        if (movesLeft === 0) {movesLeft += 1}
         moveBonus = ((movesLeft - 1) * 10);
         elementModalBodyBonus.innerText = 'Move Bonus: ' + (movesLeft - 1) + ' x 10 = ' + moveBonus;
-        elementModalBodyBonus.className = 'bg-warning-subtle';
         totalScore = score + moveBonus;
         elementScore.innerText = 'Score: ' + totalScore;
         elementModalBodyTScore.innerText = 'Total Score: ' + totalScore;
-        elementModalBodyTScore.className = 'bg-success-subtle';
         elementScoreModal.show();
         createNewTableData('username', totalScore);
     }
@@ -137,8 +166,11 @@ function DarkMode() {
             div.classList.replace('bg-gradient', 'bg-light');
         });
         elementGameArea.classList.replace('bg-light', 'bg-gradient');
+        element_modal_content.classList.remove('bg-dark');
+        elementModalBodyBonus.className = 'bg-warning-subtle';
+        elementModalBodyTScore.className = 'bg-success-subtle';
     }
-    else {
+    else { //DARK YAPMAK ICIN
         element_body.className = 'bg-dark';
         element_body.style = 'color: whitesmoke';
         element_table.classList.add('table-dark');
@@ -146,6 +178,10 @@ function DarkMode() {
         background_light_divs.forEach((div) => {
             div.classList.replace('bg-light', 'bg-gradient');
         });
+        element_modal_content.classList.add('bg-dark');
+        elementModalBodyBonus.className = 'bg-warning text-dark';
+        elementModalBodyTScore.className = 'bg-success text-dark';
+
 
     }
 
@@ -203,12 +239,15 @@ class Card {
         let p = Math.floor((movesLeft * 100) / totalMovesNumber);
         element_move_bar.style = 'width: ' + p + '%';
 
-        if(movesLeft < 0) {
+        if(movesLeft <= 0) {
             alert('game over moves left!');
             elementMoves.innerHTML = '0 moves left';
+            GameOverCheck();
         }
         else {
             elementMoves.innerHTML = movesLeft + ' moves left';
         }
     }
 }
+
+createTableData()
