@@ -190,7 +190,7 @@ class Card {
     constructor(name, image, element) {
         this.name = name;
         this.image = image;
-        this.cover = './assets/images/_cover.png';
+        this.cover = './assets/images/cover.png';
         this.blank = './assets/images/matched.png';
         this.match = false;
         this.element = element;
