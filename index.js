@@ -11,6 +11,8 @@ const element_darkModeSwitch = document.getElementById('darkModeSwitch');
 const element_body = document.getElementById('body');
 const element_table = document.getElementById('scoreTable');
 const element_modal_content = document.querySelector('#scoreModal .modal-content');
+const element_username_input = document.getElementById('username_input');
+const element_username_h5 = document.getElementById('username_h5');
 
 
 const cards = [
@@ -40,6 +42,7 @@ const cards = [
     },
 ];
 
+let username_ = null;
 let suffleCards = [];
 let previousCard = null;
 let score = 0;
@@ -49,8 +52,11 @@ let totalMovesNumber = null;
 let movesLeft = null;
 let moveBonus = null;
 let uniqueCardNumber = null;
-let k = 4;
 
+function setUsername() {
+    username_ = element_username_input.value;
+    element_username_h5.innerText = 'Welcome ' + username_ + '!' ;
+}
 function cardNumberChooser(x) {
     uniqueCardNumber = (x.innerText) / 2;
     switch (uniqueCardNumber) {
@@ -122,7 +128,7 @@ function createTableData() {
 
 function createNewTableData(username, newscore) {
     scoreTableList.push({
-        name: username,
+        name: username_,
         score: newscore
     });
     createTableData();
@@ -179,8 +185,8 @@ function DarkMode() {
             div.classList.replace('bg-light', 'bg-gradient');
         });
         element_modal_content.classList.add('bg-dark');
-        elementModalBodyBonus.className = 'bg-warning text-dark';
-        elementModalBodyTScore.className = 'bg-success text-dark';
+        elementModalBodyBonus.className = 'bg-warning text-dark fw-bold';
+        elementModalBodyTScore.className = 'bg-success text-dark fw-bold';
 
 
     }

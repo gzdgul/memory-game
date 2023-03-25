@@ -15,8 +15,8 @@
             </div>
             <div class="modal-body">
                 <p id="modal_body_score">Your Score: ...</p>
-                <p id="modal_body_bonus" class="bg-warning-subtle">Move Bonus: ...</p>
-                <p id="modal_body_tscore" class="bg-success-subtle">Your Total Score: ...</p>
+                <p id="modal_body_bonus" class="bg-warning-subtle fw-bold">Move Bonus: ...</p>
+                <p id="modal_body_tscore" class="bg-success-subtle fw-bold">Your Total Score: ...</p>
             </div>
         </div>
     </div>
@@ -38,6 +38,16 @@
                         <input class="form-check-input" type="checkbox" role="switch" id="darkModeSwitch" onclick="DarkMode()">
                         <label class="form-check-label" for="darkModeSwitch">Dark Mode</label>
                     </div>
+                </div>
+                <div id="username-area" class="bg-light rounded-3 text-center mt-3">
+                    <div class="input-group mb-3">
+                        <input id="username_input" type="text" class="form-control" placeholder="Your username" autocomplete="off" aria-describedby="button-addon2">
+                        <button class="btn btn-warning" type="button" id="button-addon2" onclick="setUsername()">OK</button>
+                    </div>
+                </div>
+
+                <div class="bg-light rounded-3 text-center mt-3">
+                    <h5 id="username_h5">Welcome User!</h5>
                 </div>
 
 
