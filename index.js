@@ -127,10 +127,17 @@ function createTableData() {
 }
 
 function createNewTableData(username, newscore) {
-    scoreTableList.push({
-        name: username_,
-        score: newscore
-    });
+    if (username_ !== null){
+        scoreTableList.push({
+            name: username_,
+            score: newscore
+        });
+    } else {
+        scoreTableList.push({
+            name: username,
+            score: newscore
+        });
+    }
     createTableData();
 }
 function GameOverCheck() {
