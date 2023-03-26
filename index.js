@@ -7,6 +7,7 @@ const elementModalBodyBonus = document.getElementById('modal_body_bonus');
 const elementModalBodyTScore = document.getElementById('modal_body_tscore');
 const element_tbody = document.getElementById('tbody');
 const element_move_bar = document.getElementById('move_bar');
+const element_match_bar = document.getElementById('match_bar');
 const element_darkModeSwitch = document.getElementById('darkModeSwitch');
 const element_body = document.getElementById('body');
 const element_table = document.getElementById('scoreTable');
@@ -79,6 +80,7 @@ function cardNumberChooser(x) {
     movesLeft = totalMovesNumber;
     elementMoves.innerHTML = totalMovesNumber + ' moves left';
     element_move_bar.style = 'width: 100%';
+    element_match_bar.style = 'width: 0%';
     previousCard = null;
     StartGame();
 }
@@ -127,30 +129,32 @@ function createTableData() {
 }
 
 function createNewTableData(username, newscore) {
-    if (username_ !== null){
-        scoreTableList.push({
-            name: username_,
-            score: newscore
-        });
-    } else {
+
         scoreTableList.push({
             name: username,
             score: newscore
         });
-    }
+
     createTableData();
 }
 function GameOverCheck() {
     if (((score/10) === suffleCards.length / 2) || movesLeft <= 0 ) {
         elementModalBodyScore.innerText = 'Your Score: ' + score;
         if (movesLeft === 0) {movesLeft += 1}
+        if (movesLeft >= 0) {element_match_bar.style = 'width: 100%';}
         moveBonus = ((movesLeft - 1) * 10);
         elementModalBodyBonus.innerText = 'Move Bonus: ' + (movesLeft - 1) + ' x 10 = ' + moveBonus;
         totalScore = score + moveBonus;
         elementScore.innerText = 'Score: ' + totalScore;
         elementModalBodyTScore.innerText = 'Total Score: ' + totalScore;
         elementScoreModal.show();
-        createNewTableData('username', totalScore);
+        if (username_ !== null){
+            createNewTableData(username_, totalScore);
+        }
+        else {
+            createNewTableData('username', totalScore);
+        }
+
     }
 }
 
@@ -250,7 +254,12 @@ class Card {
         elementScore.innerText = 'Score: ' + score;
         movesLeft = (totalMovesNumber - moveCounter);
         let p = Math.floor((movesLeft * 100) / totalMovesNumber);
-        element_move_bar.style = 'width: ' + p + '%';
+        element_move_bar.style = 'width: ' + p + '%'
+
+        let k = Math.floor(((score/10) * 100) / uniqueCardNumber);
+        element_match_bar.style = 'width: ' + k + '%';
+
+
 
         if(movesLeft <= 0) {
             alert('game over moves left!');
